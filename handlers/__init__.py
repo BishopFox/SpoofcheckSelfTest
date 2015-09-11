@@ -26,6 +26,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from libs.ConfigManager import ConfigManager
 from handlers.ErrorHandlers import *
+from handlers.HomePageHandler import *
 
 # Config
 config = ConfigManager.instance()
@@ -37,7 +38,8 @@ app = Application([
     (r'/static/(.*\.(css|js|png|jpg|jpeg|svg|ttf|html))',
      StaticFileHandler, {'path': 'static/'}),
 
-    # Admin Handlers -
+    # Home page serving SPA app
+    (r'/', HomePageHandler),
 
     # Error Handlers -
     (r'/403', ForbiddenHandler),
