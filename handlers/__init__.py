@@ -27,6 +27,7 @@ from tornado.ioloop import IOLoop
 from libs.ConfigManager import ConfigManager
 from handlers.ErrorHandlers import *
 from handlers.HomePageHandler import *
+from handlers.CheckHandler import *
 
 # Config
 config = ConfigManager.instance()
@@ -41,12 +42,14 @@ app = Application([
     # Home page serving SPA app
     (r'/', HomePageHandler),
 
+    # Monitor Socket
+    (r'/connect/monitor', MonitorSocketHandler),
+
     # Error Handlers -
     (r'/403', ForbiddenHandler),
 
     # Catch all 404 page
     (r'(.*)', NotFoundHandler),
-
 ],
 
     # Randomly generated secret key
