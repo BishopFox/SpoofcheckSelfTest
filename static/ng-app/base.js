@@ -23,7 +23,8 @@ app.config( ['$routeProvider', '$locationProvider',
 
 ])
     .constant('EVENTS', {
-        output: 'output'
+        output: 'output',
+        sent: 'sent'
     })
 ;
 
@@ -79,6 +80,7 @@ app
                 $rootScope.ws.checkDomain(domain);
 
                 $location.path("/watch");
+                $rootScope.$broadcast(EVENTS.sent);
 
             }
         }
@@ -86,6 +88,8 @@ app
 
     .controller('WatchController', ['$scope', '$rootScope', '$location', 'EVENTS',
         function($scope, $rootScope, $location, EVENTS) {
+            console.log("Loading watch controller");
+
 
         }
     ])

@@ -29,6 +29,11 @@ class MonitorSocketHandler(BaseWebSocketHandler):
 
     # Opcodes
     def check_domain(self, message):
+
+        # TODO: Add real DNS checking here
+
+        import time
+        time.sleep(2)
         self.write_message({
             'opcode': "test",
             'message': "asdfasdfasdfasdfasdfasdf"
