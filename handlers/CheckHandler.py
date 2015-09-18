@@ -34,7 +34,7 @@ class MonitorSocketHandler(BaseWebSocketHandler):
 
         import time
         time.sleep(2)
-        self.write_message({
-            'opcode': "test",
-            'message': "asdfasdfasdfasdfasdfasdf"
-        })
+        # self.write_message({
+        #     'opcode': "test",
+        #     'message': "asdfasdfasdfasdfasdfasdf"
+        # })
