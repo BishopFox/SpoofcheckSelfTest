@@ -23,15 +23,32 @@
     padding: 1em;
 }
 
+.bf-logo-sm {
+    width: 200px;
+    height: auto;
+    padding: 10px;
+}
+
 .domain-check-form {
     padding-top: 40px;
 }
 
 .code {
-    color: rgb(209, 65, 38);
-
     font-family: source-code-pro, Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 }
+
+.highlight {
+    color: rgb(209, 65, 38);
+}
+
+.good {
+    color: rgb(0, 159, 44);
+}
+
+.bad {
+    color: rgb(255, 0, 0);
+}
+
 
 .content {
     position: relative;

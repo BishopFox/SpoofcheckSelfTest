@@ -34,7 +34,19 @@ class MonitorSocketHandler(BaseWebSocketHandler):
 
         import time
         time.sleep(2)
-        # self.write_message({
-        #     'opcode': "test",
-        #     'message': "asdfasdfasdfasdfasdfasdf"
-        # })
+        self.write_message({
+            'opcode': "test",
+            'message': {
+                'vulnerable': True,
+                'spf': {
+                    'existence': False,
+                    'strongConfiguration': True
+                },
+                'dmarc': {
+                    'existence': False,
+                    'policy': 'none',
+                    'aggregateReports': True,
+                    'forensicReports': False,
+                }
+            }
+        })

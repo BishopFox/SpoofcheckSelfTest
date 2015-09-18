@@ -81,7 +81,6 @@ app
 
                 $location.path("/watch");
                 $rootScope.$broadcast(EVENTS.sent);
-
             }
         }
     ])
@@ -96,7 +95,7 @@ app
 
     .controller('ReportController', ["$scope", '$rootScope',
         function($scope, $rootScope) {
-            $scope.messages = $rootScope.ws.output;
+            $scope.message = $rootScope.ws.output[0];
         }
     ])
 ;
