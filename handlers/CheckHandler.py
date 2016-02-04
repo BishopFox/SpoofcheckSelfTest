@@ -52,7 +52,6 @@ class MonitorSocketHandler(BaseWebSocketHandler):
             dmarc_aggregate_reports = dmarc_record.rua is not None and dmarc_record.rua != ""
             dmarc_forensic_reports = dmarc_record.ruf is not None and dmarc_record.ruf != ""
 
-
         domain_vulnerable = not (spf_strong and dmarc_strong)
 
         output = {
@@ -61,13 +60,15 @@ class MonitorSocketHandler(BaseWebSocketHandler):
                 'vulnerable': domain_vulnerable,
                 'spf': {
                     'existence': spf_existence,
-                    'strongConfiguration': spf_strong
+                    'strongConfiguration': spf_strong,
+                    'record': spf_record.record if spf_existence else None,
                 },
                 'dmarc': {
                     'existence': dmarc_existence,
                     'policy': dmarc_policy,
                     'aggregateReports': dmarc_aggregate_reports,
                     'forensicReports': dmarc_forensic_reports,
+                    'record': dmarc_record.record if dmarc_existence else None,
                 },
 
             },

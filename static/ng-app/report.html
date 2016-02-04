@@ -25,6 +25,8 @@
 
                             <li ng-if="message.spf.strongConfiguration">The SPF record for <span class="code">{{domain}}</span> has a <span class="good">strong defensive configuration</span>.</li>
                             <li ng-if="!message.spf.strongConfiguration">The SPF record for <span class="code">{{domain}}</span> has a <span class="bad">weak configuration</span>.</li>
+                            <li ng-if="message.spf.existence">Record:
+                                <span class="code">{{ message.spf.record}}</span></li>
                         </ul>
                     </li>
                     <li><b>DMARC</b>
@@ -46,6 +48,8 @@
                             <li ng-if="message.dmarc.existence && message.dmarc.forensicReports">
                                 The DMARC record for <span class="code">{{domain}}</span> is configured to <span class="good">send forensic reports</span>.
                             </li>
+                            <li ng-if="message.dmarc.existence">Record:
+                                <span class="code">{{ message.dmarc.record }}</span></li>
                         </ul>
                     </li>
                 </ul>
