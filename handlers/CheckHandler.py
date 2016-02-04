@@ -2,6 +2,9 @@ from handlers.BaseHandlers import BaseWebSocketHandler
 import logging
 import json
 
+import emailprotectionslib.spf as spflib
+import emailprotectionslib.dmarc as dmarclib
+
 
 class MonitorSocketHandler(BaseWebSocketHandler):
 
@@ -30,23 +33,44 @@ class MonitorSocketHandler(BaseWebSocketHandler):
     # Opcodes
     def check_domain(self, message):
 
-        # TODO: Add real DNS checking here
+        domain = message["domain"]
 
-        import time
-        time.sleep(2)
-        self.write_message({
+        spf_record = spflib.SpfRecord.from_domain(domain)
+        dmarc_record = dmarclib.DmarcRecord.from_domain(domain)
+
+        spf_existence = spf_record is not None
+        spf_strong = spf_record.is_record_strong() if spf_existence else False
+
+        dmarc_existence = dmarc_record is not None
+        dmarc_policy = ""
+        dmarc_strong = False
+        dmarc_aggregate_reports = False
+        dmarc_forensic_reports = False
+        if dmarc_existence:
+            dmarc_strong = dmarc_record.is_record_strong()
+            dmarc_policy = dmarc_record.policy
+            dmarc_aggregate_reports = dmarc_record.rua is not None and dmarc_record.rua != ""
+            dmarc_forensic_reports = dmarc_record.ruf is not None and dmarc_record.ruf != ""
+
+
+        domain_vulnerable = not (spf_strong and dmarc_strong)
+
+        output = {
             'opcode': "test",
             'message': {
-                'vulnerable': True,
+                'vulnerable': domain_vulnerable,
                 'spf': {
-                    'existence': False,
-                    'strongConfiguration': True
+                    'existence': spf_existence,
+                    'strongConfiguration': spf_strong
                 },
                 'dmarc': {
-                    'existence': False,
-                    'policy': 'none',
-                    'aggregateReports': True,
-                    'forensicReports': False,
-                }
-            }
-        })
+                    'existence': dmarc_existence,
+                    'policy': dmarc_policy,
+                    'aggregateReports': dmarc_aggregate_reports,
+                    'forensicReports': dmarc_forensic_reports,
+                },
+
+            },
+        }
+
+        self.write_message(output)

@@ -1,0 +1,2 @@
+emailprotectionslib>=0.5.0
+tornado
