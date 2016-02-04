@@ -32,7 +32,7 @@ app
     .factory('MonitorWebSocket', ['$websocket', 'EVENTS', '$rootScope',
         function($websocket, EVENTS, $rootScope) {
             console.log("Activated websocket");
-            var ws = $websocket("ws://localhost:8888/connect/monitor");
+            var ws = $websocket("ws://" + location.host + "/connect/monitor");
             var output = [];
 
             ws.onMessage(function(message) {
