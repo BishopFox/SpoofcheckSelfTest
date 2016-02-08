@@ -13,6 +13,12 @@
     color: #fff;
 }
 
+h2 {
+    border-top: 2px solid rgb(209, 65, 38);
+    margin: 1em 0 .5em 0;
+    padding-top: 5px;
+    text-transform: uppercase;
+}
 
 .content {
     margin-top: 30px;
