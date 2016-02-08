@@ -77,7 +77,7 @@ app
 
                 $rootScope.$on(EVENTS.output, function(evt, data) {
                     console.log(evt);
-                    $location.path("/report");
+                    $location.path("/report").replace();
                 });
 
                 $rootScope.ws.checkDomain(domain);
