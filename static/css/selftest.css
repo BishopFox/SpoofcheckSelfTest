@@ -21,7 +21,8 @@ h2 {
 }
 
 .content {
-    margin-top: 30px;
+    position: relative;
+    margin-top: 60px;
     padding-top: 50px;
     padding-bottom: 100px;
 }
@@ -44,6 +45,14 @@ h2 {
     padding-top: 40px;
 }
 
+.headline {
+
+}
+
+li.dmarc {
+    padding-top: 5px;
+}
+
 .code {
     font-family: source-code-pro, Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 }
@@ -58,11 +67,6 @@ h2 {
 
 .bad {
     color: rgb(255, 0, 0);
-}
-
-
-.content {
-    position: relative;
 }
 
 .slide {

@@ -7,8 +7,8 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="text-center" ng-if="message.vulnerable" ><span class="code">{{ domain }}</span> is <span class="highlight">vulnerable to email spoofing</span></h1>
-            <h1 class="text-center" ng-if="!message.vulnerable"><span class="code">{{ domain }}</span> is <span class="good">not vulnerable to email spoofing</span></h1>
+            <h1 class="headline" ng-if="message.vulnerable" ><span class="code">{{ domain }}</span> is <span class="highlight">vulnerable to email spoofing</span></h1>
+            <h1 class="headline" ng-if="!message.vulnerable"><span class="code">{{ domain }}</span> is <span class="good">not vulnerable to email spoofing</span></h1>
         </div>
     </div>
 
@@ -16,7 +16,7 @@
         <div class="col-xs-12">
             <h2>Analysis</h2>
             <ul class="analysis-list">
-                <li><b>SPF</b>
+                <li class="spf"><b>SPF</b>
                     <ul class="protection-list">
                         <li ng-if="message.spf.existence"><span class="code">{{ domain }}</span> <span class="good">has an SPF record</span>.</li>
                         <li ng-if="!message.spf.existence"><span class="code">{{ domain }}</span> <span class="bad">has no SPF record</span>.</li>
@@ -27,7 +27,7 @@
                             <span class="code">{{ message.spf.record}}</span></li>
                     </ul>
                 </li>
-                <li><b>DMARC</b>
+                <li class="dmarc"><b>DMARC</b>
                     <ul class="protection-list">
                         <li ng-if="message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="good">has a DMARC record</span>.</li>
                         <li ng-if="!message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="bad">has no DMARC record</span>.</li>
