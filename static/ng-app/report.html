@@ -7,8 +7,8 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="headline" ng-if="message.vulnerable" ><span class="code">{{ domain }}</span> is <span class="highlight">vulnerable to email spoofing</span></h1>
-            <h1 class="headline" ng-if="!message.vulnerable"><span class="code">{{ domain }}</span> is <span class="good">not vulnerable to email spoofing</span></h1>
+            <h1 class="headline text-center" ng-if="message.vulnerable" ><span class="code">{{ domain }}</span> <br /> is <span class="highlight">vulnerable to email spoofing</span></h1>
+            <h1 class="headline text-center" ng-if="!message.vulnerable"><span class="code">{{ domain }}</span> <br /> is <span class="good">not vulnerable to email spoofing</span></h1>
         </div>
     </div>
 
