@@ -57,12 +57,12 @@
     <div class="row">
         <div class="col-xs-12">
             <h2>Recommendations</h2>
-            <div ng-if="message.vulnerable">
+            <div class="self-vulnerable-recommendations" ng-if="message.vulnerable">
                 <p>To avoid the risk of email spoofing from <span class="code">{{domain}}</span>,
                 Bishop Fox recommends the following:</p>
 
 
-                <ul class="recommendations-list">
+                <ul class="recommendations">
 
                     <li ng-if="!message.spf.existence">
                         Begin implementing an SPF record for <span class="code">{{domain}}</span>. SPF records are DNS
@@ -105,10 +105,10 @@
                 </ul>
             </div>
 
-            <div>
+            <div class="other-vulnerable-recommendations">
                 <p>To manage the risk of email spoofing from domains other than <span class="code">{{domain}}</span>,
                 Bishop Fox recommends the following:</p>
-            <ul>
+            <ul class="recommendations">
 
                 <li>
                     Configure the <span class="code">{{domain}}</span> email server to quarantine emails that fail

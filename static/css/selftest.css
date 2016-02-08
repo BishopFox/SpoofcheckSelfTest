@@ -50,7 +50,7 @@ h2 {
 }
 
 li.dmarc {
-    padding-top: 5px;
+    padding-top: 7px;
 }
 
 .code {
@@ -93,4 +93,19 @@ li.dmarc {
 }
 .slide.ng-leave-active {
     left: -100%;
+}
+
+.other-vulnerable-recommendations {
+    padding-top: .5em;
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+ul.recommendations {
+
+}
+ul.recommendations li {
+    padding-bottom: 2px;
 }
