@@ -17,7 +17,9 @@ app.config( ['$routeProvider', '$locationProvider',
                     templateUrl: '/static/ng-app/report.html',
                     controller: 'ReportController'
                 }
-            )
+            ).otherwise({
+                redirectTo: '/'
+            })
             ;
         }
 
@@ -101,6 +103,7 @@ app
 
     .controller('ReportController', ["$scope", '$rootScope', "$location", "$routeParams", "MonitorWebSocket", "EVENTS",
         function($scope, $rootScope, $location, $routeParams, MonitorWebSocket, EVENTS) {
+            console.log($routeParams.domain);
             if ($rootScope.ws === undefined || $rootScope.domain === undefined
                 || $rootScope.domain !== $routeParams.domain) {
                 if ($routeParams.domain !== null && $routeParams.domain !== undefined) {
