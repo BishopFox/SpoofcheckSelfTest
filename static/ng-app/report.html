@@ -1,127 +1,123 @@
 <div class="container">
-    <div class="jumbotron">
-
-        <div class="row">
-            <div class="col-xs-12">
-                <img src="/static/img/bf-logo.png" class="bf-logo-sm img-center img-responsive">
-            </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <img src="/static/img/bf-logo.png" class="bf-logo-sm img-center img-responsive">
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <h1 class="text-center" ng-if="message.vulnerable" ><span class="code">{{ domain }}</span> is <span class="highlight">vulnerable to email spoofing</span></h1>
-                <h1 class="text-center" ng-if="!message.vulnerable"><span class="code">{{ domain }}</span> is <span class="good">not vulnerable to email spoofing</span></h1>
-            </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="text-center" ng-if="message.vulnerable" ><span class="code">{{ domain }}</span> is <span class="highlight">vulnerable to email spoofing</span></h1>
+            <h1 class="text-center" ng-if="!message.vulnerable"><span class="code">{{ domain }}</span> is <span class="good">not vulnerable to email spoofing</span></h1>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>Analysis</h2>
-                <ul class="analysis-list">
-                    <li><b>SPF</b>
-                        <ul class="protection-list">
-                            <li ng-if="message.spf.existence"><span class="code">{{ domain }}</span> <span class="good">has an SPF record</span>.</li>
-                            <li ng-if="!message.spf.existence"><span class="code">{{ domain }}</span> <span class="bad">has no SPF record</span>.</li>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Analysis</h2>
+            <ul class="analysis-list">
+                <li><b>SPF</b>
+                    <ul class="protection-list">
+                        <li ng-if="message.spf.existence"><span class="code">{{ domain }}</span> <span class="good">has an SPF record</span>.</li>
+                        <li ng-if="!message.spf.existence"><span class="code">{{ domain }}</span> <span class="bad">has no SPF record</span>.</li>
 
-                            <li ng-if="message.spf.strongConfiguration">The SPF record for <span class="code">{{domain}}</span> has a <span class="good">strong defensive configuration</span>.</li>
-                            <li ng-if="!message.spf.strongConfiguration">The SPF record for <span class="code">{{domain}}</span> has a <span class="bad">weak configuration</span>.</li>
-                            <li ng-if="message.spf.existence">Record:
-                                <span class="code">{{ message.spf.record}}</span></li>
-                        </ul>
-                    </li>
-                    <li><b>DMARC</b>
-                        <ul class="protection-list">
-                            <li ng-if="message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="good">has a DMARC record</span>.</li>
-                            <li ng-if="!message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="bad">has no DMARC record</span>.</li>
-
-                            <li ng-if="message.dmarc.existence && message.dmarc.policy != 'none'">
-                                The DMARC record for <span class="code">{{ domain }}</span> is configured with <span class="good">a policy of <span class="code">{{message.dmarc.policy}}</span>.</span>
-                            </li>
-                            <li ng-if="message.dmarc.existence && message.dmarc.policy == 'none'">
-                                The DMARC record for <span class="code">{{domain}}</span> is configured with a <span class="bad">policy of <span class="code">none</span></span>.
-                                A DMARC policy of <span class="code">none</span> still delivers emails that fail SPF and DKIM alignment.
-                            </li>
-
-                            <li ng-if="message.dmarc.existence && message.dmarc.aggregateReports">
-                                The DMARC record for <span class="code">{{domain}}</span> is configured to <span class="good">send aggregate reports</span>.
-                            </li>
-                            <li ng-if="message.dmarc.existence && message.dmarc.forensicReports">
-                                The DMARC record for <span class="code">{{domain}}</span> is configured to <span class="good">send forensic reports</span>.
-                            </li>
-                            <li ng-if="message.dmarc.existence">Record:
-                                <span class="code">{{ message.dmarc.record }}</span></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>Recommendations</h2>
-                <div ng-if="message.vulnerable">
-                    <p>To avoid the risk of email spoofing from <span class="code">{{domain}}</span>,
-                    Bishop Fox recommends the following:</p>
-
-
-                    <ul class="recommendations-list">
-
-                        <li ng-if="!message.spf.existence">
-                            Begin implementing an SPF record for <span class="code">{{domain}}</span>. SPF records are DNS
-                            <span class="code">TXT</span> records on the root <span class="code">{{domain}}</span> domain
-                            that define all of the IP addresses permitted to send emails from <span class="code">{{domain}}</span>.
-                            Additional information on setting up SPF records can be found at the OpenSPF project's
-                            <a href="http://www.openspf.org/SPF_Record_Syntax">SPF Record Syntax</a> page.
-                        </li>
-
-                        <li ng-if="message.spf.existence && !message.spf.strongConfiguration">
-                            Modify the SPF record for <span class="code">{{domain}}</span> to contain a <span class="code">
-                            reject all</span> mechanism.This is performed by adding the string <span class="code">-all</span>
-                            or <span class="code">~all</span> to the SPF record for <span class="code">{{domain}}</span>.
-                            Additional information on setting up SPF records can be found at the OpenSPF project's
-                            <a href="http://www.openspf.org/SPF_Record_Syntax">SPF Record Syntax</a> page.
-                        </li>
-
-                        <li ng-if="!message.dmarc.existence">
-                            Begin implementing a DMARC record for <span class="code">{{domain}}</span>. DMARC records are
-                            DNS <span class="code">TXT</span> records located at the <span class="code">_dmarc.{{domain}}</span>
-                            subdomain that instruct receiving mail servers on how to handle emails that fail SPF and DKIM
-                            alignment. For DMARC to function, <span class="code">{{domain}}</span> needs to have both SPF and
-                            DKIM configured. Additional information about setting up DMARC records can be found from the
-                            <a href="https://support.google.com/a/answer/2466563?hl=en">Google Apps DMARC setup guide</a>.
-                        </li>
-
-                        <li ng-if="!message.dmarc.existence || message.dmarc.policy=='none'">
-                            A DMARC policy of <span class="code">none</span> allows spoofed emails to be delivered.
-                            Begin implementing a DMARC policy of <span class="code">quarantine</span> or <span class="code">
-                            reject</span>. As implementing strict DMARC policies may interfere with the deliver of email from
-                            <span class="code">{{domain}}</span> email addresses, Bishop Fox recommends
-                            <span ng-if="!message.dmarc.aggregateReports">setting up and </span> monitoring aggregate report
-                            notifications for legitimate emails before beginning to implement a stricter policy. If no
-                            legitimate emails are reported, set the DMARC policy to <span class="code">quarantine</span>
-                            and set the <span class="code">pct</span> field to a low percentage. This process is described
-                            in more detail in the <a href="https://support.google.com/a/answer/2466563?hl=en">Google Apps
-                            DMARC setup guide</a>.
-                        </li>
-
+                        <li ng-if="message.spf.strongConfiguration">The SPF record for <span class="code">{{domain}}</span> has a <span class="good">strong defensive configuration</span>.</li>
+                        <li ng-if="!message.spf.strongConfiguration">The SPF record for <span class="code">{{domain}}</span> has a <span class="bad">weak configuration</span>.</li>
+                        <li ng-if="message.spf.existence">Record:
+                            <span class="code">{{ message.spf.record}}</span></li>
                     </ul>
-                </div>
+                </li>
+                <li><b>DMARC</b>
+                    <ul class="protection-list">
+                        <li ng-if="message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="good">has a DMARC record</span>.</li>
+                        <li ng-if="!message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="bad">has no DMARC record</span>.</li>
 
-                <div>
-                    <p>To manage the risk of email spoofing from domains other than <span class="code">{{domain}}</span>,
-                    Bishop Fox recommends the following:</p>
-                <ul>
+                        <li ng-if="message.dmarc.existence && message.dmarc.policy != 'none'">
+                            The DMARC record for <span class="code">{{ domain }}</span> is configured with <span class="good">a policy of <span class="code">{{message.dmarc.policy}}</span>.</span>
+                        </li>
+                        <li ng-if="message.dmarc.existence && message.dmarc.policy == 'none'">
+                            The DMARC record for <span class="code">{{domain}}</span> is configured with a <span class="bad">policy of <span class="code">none</span></span>.
+                            A DMARC policy of <span class="code">none</span> still delivers emails that fail SPF and DKIM alignment.
+                        </li>
 
-                    <li>
-                        Configure the <span class="code">{{domain}}</span> email server to quarantine emails that fail
-                        SPF alignment on the <span class="code">From</span> field. Nearly 40% of domains are configured
-                        with SPF records, but less than one percent of domains are configured with a strict DMARC record.
-                    </li>
-                </ul>
-                </div>
-
-            </div>
+                        <li ng-if="message.dmarc.existence && message.dmarc.aggregateReports">
+                            The DMARC record for <span class="code">{{domain}}</span> is configured to <span class="good">send aggregate reports</span>.
+                        </li>
+                        <li ng-if="message.dmarc.existence && message.dmarc.forensicReports">
+                            The DMARC record for <span class="code">{{domain}}</span> is configured to <span class="good">send forensic reports</span>.
+                        </li>
+                        <li ng-if="message.dmarc.existence">Record:
+                            <span class="code">{{ message.dmarc.record }}</span></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
+    </div>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Recommendations</h2>
+            <div ng-if="message.vulnerable">
+                <p>To avoid the risk of email spoofing from <span class="code">{{domain}}</span>,
+                Bishop Fox recommends the following:</p>
+
+
+                <ul class="recommendations-list">
+
+                    <li ng-if="!message.spf.existence">
+                        Begin implementing an SPF record for <span class="code">{{domain}}</span>. SPF records are DNS
+                        <span class="code">TXT</span> records on the root <span class="code">{{domain}}</span> domain
+                        that define all of the IP addresses permitted to send emails from <span class="code">{{domain}}</span>.
+                        Additional information on setting up SPF records can be found at the OpenSPF project's
+                        <a href="http://www.openspf.org/SPF_Record_Syntax">SPF Record Syntax</a> page.
+                    </li>
+
+                    <li ng-if="message.spf.existence && !message.spf.strongConfiguration">
+                        Modify the SPF record for <span class="code">{{domain}}</span> to contain a <span class="code">
+                        reject all</span> mechanism.This is performed by adding the string <span class="code">-all</span>
+                        or <span class="code">~all</span> to the SPF record for <span class="code">{{domain}}</span>.
+                        Additional information on setting up SPF records can be found at the OpenSPF project's
+                        <a href="http://www.openspf.org/SPF_Record_Syntax">SPF Record Syntax</a> page.
+                    </li>
+
+                    <li ng-if="!message.dmarc.existence">
+                        Begin implementing a DMARC record for <span class="code">{{domain}}</span>. DMARC records are
+                        DNS <span class="code">TXT</span> records located at the <span class="code">_dmarc.{{domain}}</span>
+                        subdomain that instruct receiving mail servers on how to handle emails that fail SPF and DKIM
+                        alignment. For DMARC to function, <span class="code">{{domain}}</span> needs to have both SPF and
+                        DKIM configured. Additional information about setting up DMARC records can be found from the
+                        <a href="https://support.google.com/a/answer/2466563?hl=en">Google Apps DMARC setup guide</a>.
+                    </li>
+
+                    <li ng-if="!message.dmarc.existence || message.dmarc.policy=='none'">
+                        A DMARC policy of <span class="code">none</span> allows spoofed emails to be delivered.
+                        Begin implementing a DMARC policy of <span class="code">quarantine</span> or <span class="code">
+                        reject</span>. As implementing strict DMARC policies may interfere with the deliver of email from
+                        <span class="code">{{domain}}</span> email addresses, Bishop Fox recommends
+                        <span ng-if="!message.dmarc.aggregateReports">setting up and </span> monitoring aggregate report
+                        notifications for legitimate emails before beginning to implement a stricter policy. If no
+                        legitimate emails are reported, set the DMARC policy to <span class="code">quarantine</span>
+                        and set the <span class="code">pct</span> field to a low percentage. This process is described
+                        in more detail in the <a href="https://support.google.com/a/answer/2466563?hl=en">Google Apps
+                        DMARC setup guide</a>.
+                    </li>
+
+                </ul>
+            </div>
+
+            <div>
+                <p>To manage the risk of email spoofing from domains other than <span class="code">{{domain}}</span>,
+                Bishop Fox recommends the following:</p>
+            <ul>
+
+                <li>
+                    Configure the <span class="code">{{domain}}</span> email server to quarantine emails that fail
+                    SPF alignment on the <span class="code">From</span> field. Nearly 40% of domains are configured
+                    with SPF records, but less than one percent of domains are configured with a strict DMARC record.
+                </li>
+            </ul>
+            </div>
+
+        </div>
     </div>
 </div>

@@ -7,10 +7,15 @@
          url('/static/fonts/SourceCodePro-Regular.ttf.woff') format('woff');
 }
 
+#header {
+    background: #2c2f34;
+    border-bottom: 4px solid #d24126;
+    color: #fff;
+}
 
 
 .content {
-    margin-top: 20px;
+    margin-top: 30px;
     padding-top: 50px;
     padding-bottom: 100px;
 }
