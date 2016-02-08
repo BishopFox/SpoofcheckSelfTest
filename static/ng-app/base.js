@@ -68,7 +68,10 @@ app
 app
     .controller('HomeController', ['$scope', '$rootScope', 'MonitorWebSocket', '$location', 'EVENTS',
         function($scope, $rootScope, MonitorWebSocket, $location, EVENTS) {
+            $rootScope.domain = undefined;
+
             $scope.checkDomain = function(domain) {
+                console.log("Firing checkDomain with " + domain);
                 $rootScope.domain = domain;
                 $rootScope.ws = MonitorWebSocket;
 
@@ -88,14 +91,21 @@ app
     .controller('WatchController', ['$scope', '$rootScope', '$location', 'EVENTS',
         function($scope, $rootScope, $location, EVENTS) {
             console.log("Loading watch controller");
+            if ($rootScope.ws === undefined || $rootScope.domain === undefined) {
+                $location.path("/");
+            }
 
 
         }
     ])
 
-    .controller('ReportController', ["$scope", '$rootScope',
-        function($scope, $rootScope) {
-            $scope.message = $rootScope.ws.output[0];
+    .controller('ReportController', ["$scope", '$rootScope', "$location",
+        function($scope, $rootScope, $location) {
+            if ($rootScope.ws === undefined || $rootScope.domain === undefined) {
+                $location.path("/");
+            } else {
+                $scope.message = $rootScope.ws.output[$rootScope.ws.output.length - 1];
+            }
         }
     ])
 ;
