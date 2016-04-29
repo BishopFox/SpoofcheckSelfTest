@@ -34,7 +34,9 @@
                 <li class="dmarc"><b>DMARC</b>
                     <ul class="protection-list">
                         <li ng-if="message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="good">has a DMARC record</span>.</li>
-                        <li ng-if="!message.dmarc.existence"><span class="code">{{ domain }}</span> <span class="bad">has no DMARC record</span>.</li>
+                        <li ng-if="!message.dmarc.existence && message.dmarc.orgRecord.existence"><span class="code">{{ domain }}</span> is a subdomain of <span class="code">{{message.dmarc.orgRecord.domain}}</span>.</li>
+                        <li ng-if="!message.dmarc.existence && message.dmarc.orgRecord.existence"><span class="code">{{ message.dmarc.orgRecord.domain }}</span> <span class="good">has a DMARC record</span>.</li>
+                        <li ng-if="!message.dmarc.existence && !message.dmarc.orgRecord.existence"><span class="code">{{ domain }}</span> <span class="bad">has no DMARC record</span>.</li>
 
                         <li ng-if="message.dmarc.existence && message.dmarc.policy != 'none'">
                             The DMARC record for <span class="code">{{ domain }}</span> is configured with <span class="good">a policy of <span class="code">{{message.dmarc.policy}}</span>.</span>
@@ -50,8 +52,36 @@
                         <li ng-if="message.dmarc.existence && message.dmarc.forensicReports">
                             The DMARC record for <span class="code">{{domain}}</span> is configured to <span class="good">send forensic reports</span>.
                         </li>
+
+                        <li ng-if="message.dmarc.orgRecord.existence && message.dmarc.orgRecord.sp == 'none'">
+                            The DMARC record for <span class="code">{{message.dmarc.orgRecord.domain}}</span> is configured with a <span class="bad">subdomain policy of <span class="code">none</span></span>.
+                            A DMARC subdomain policy of <span class="code">none</span> still delivers emails for subdomains that fail SPF and DKIM alignment.
+                        </li>
+
+                        <li ng-if="message.dmarc.orgRecord.existence && message.dmarc.orgRecord.sp && message.dmarc.orgRecord.sp != 'none'">
+                            The DMARC record for <span class="code">{{message.dmarc.orgRecord.domain}}</span> is configured with a <span class="good">subdomain policy of <span class="code">{{message.dmarc.orgRecord.sp}}</span></span>.
+                            A DMARC subdomain policy of <span class="code">message.dmarc.orgRecord.sp</span> will prevent email spoofing from subdomains of <span class="code">{{message.dmarc.orgRecord.domain}}</span>.
+                        </li>
+
+                        <li ng-if="message.dmarc.orgRecord.existence && !message.dmarc.orgRecord.sp">
+                            The DMARC record for <span class="code">{{message.dmarc.orgRecord.domain}}</span> has no specified subdomain policy. Configuration defaults to <span class="code">policy</span>
+                        </li>
+
+                        <li ng-if="message.dmarc.orgRecord.existence && !message.dmarc.orgRecord.sp && mmessage.dmarc.orgRecord.policy != 'none'">
+                            The DMARC record for <span class="code">{{ message.dmarc.orgRecord.domain }}</span> is configured with <span class="good">a policy of <span class="code">{{message.dmarc.orgRecord.policy}}</span></span>. A policy of <span class="code">{{message.dmarc.orgRecord.p}}</span> will prevent email spoofing from <span class="code">{{domain}}</span>.
+                        </li>
+
+                        <li ng-if="message.dmarc.orgRecord.existence && !message.dmarc.orgRecord.sp && mmessage.dmarc.orgRecord.policy == 'none'">
+                            The DMARC record for <span class="code">{{ message.dmarc.orgRecord.domain }}</span> is configured with <span class="bad">a policy of <span class="code">{{message.dmarc.orgRecord.policy}}</span></span>. A policy of <span class="code">{{message.dmarc.orgRecord.p}}</span> still delivers emails for subdomains that fail SPF and DKIM alignment.
+                        </li>
+
                         <li ng-if="message.dmarc.existence">Record:
-                            <span class="code">{{ message.dmarc.record }}</span></li>
+                            <span class="code">{{ message.dmarc.record }}</span>
+                        </li>
+                        <li ng-if="message.dmarc.orgRecord.existence">Organizational Record:
+                            <span class="code">{{ message.dmarc.orgRecord.record }}</span>
+                        </li>
+
                     </ul>
                 </li>
             </ul>

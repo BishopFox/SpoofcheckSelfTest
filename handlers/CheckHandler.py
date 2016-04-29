@@ -38,21 +38,34 @@ class MonitorSocketHandler(BaseWebSocketHandler):
         spf_record = spflib.SpfRecord.from_domain(domain)
         dmarc_record = dmarclib.DmarcRecord.from_domain(domain)
 
-        spf_existence = spf_record is not None
+        spf_existence = spf_record.record is not None
         spf_strong = spf_record.is_record_strong() if spf_existence else False
 
-        dmarc_existence = dmarc_record is not None
+        dmarc_existence = dmarc_record.record is not None
         dmarc_policy = ""
         dmarc_strong = False
         dmarc_aggregate_reports = False
         dmarc_forensic_reports = False
-        if dmarc_existence:
+
+        org_domain = ""
+        org_record_record = ""
+        org_sp = ""
+        org_policy = ""
+
+        if dmarc_record is not None:
             dmarc_strong = dmarc_record.is_record_strong()
             dmarc_policy = dmarc_record.policy
             dmarc_aggregate_reports = dmarc_record.rua is not None and dmarc_record.rua != ""
             dmarc_forensic_reports = dmarc_record.ruf is not None and dmarc_record.ruf != ""
 
-        domain_vulnerable = not (spf_strong and dmarc_strong)
+        if not dmarc_existence:
+            org_domain = dmarc_record.get_org_domain()
+            org_record = dmarc_record.get_org_record()
+            org_record_record = org_record.record
+            org_sp = org_record.subdomain_policy
+            org_policy = org_record.policy
+
+        domain_vulnerable = not dmarc_strong
 
         output = {
             'opcode': "test",
@@ -69,6 +82,13 @@ class MonitorSocketHandler(BaseWebSocketHandler):
                     'aggregateReports': dmarc_aggregate_reports,
                     'forensicReports': dmarc_forensic_reports,
                     'record': dmarc_record.record if dmarc_existence else None,
+                    'orgRecord': {
+                        'existence': org_record_record is not None,
+                        'domain': org_domain,
+                        'record': org_record_record,
+                        'sp': org_sp,
+                        'policy': org_policy,
+                    },
                 },
 
             },
