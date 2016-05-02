@@ -114,7 +114,7 @@
                         <a href="http://www.openspf.org/SPF_Record_Syntax">SPF Record Syntax</a> page.
                     </li>
 
-                    <li ng-if="!message.dmarc.existence">
+                    <li ng-if="!message.dmarc.existence && !message.dmarc.orgRecord.existence">
                         Begin implementing a DMARC record for <span class="code">{{domain}}</span>. DMARC records are
                         DNS <span class="code">TXT</span> records located at the <span class="code">_dmarc.{{domain}}</span>
                         subdomain that instruct receiving mail servers on how to handle emails that fail SPF and DKIM
@@ -123,12 +123,27 @@
                         <a href="https://support.google.com/a/answer/2466563?hl=en">Google Apps DMARC setup guide</a>.
                     </li>
 
-                    <li ng-if="!message.dmarc.existence || message.dmarc.policy=='none'">
+                    <li ng-if="(!message.dmarc.existence || message.dmarc.policy=='none') && !message.dmarc.orgRecord.existence">
                         A DMARC policy of <span class="code">none</span> allows spoofed emails to be delivered.
                         Begin implementing a DMARC policy of <span class="code">quarantine</span> or <span class="code">
                         reject</span>. As implementing strict DMARC policies may interfere with the deliver of email from
                         <span class="code">{{domain}}</span> email addresses, Bishop Fox recommends
                         <span ng-if="!message.dmarc.aggregateReports">setting up and </span> monitoring aggregate report
+                        notifications for legitimate emails before beginning to implement a stricter policy. If no
+                        legitimate emails are reported, set the DMARC policy to <span class="code">quarantine</span>
+                        and set the <span class="code">pct</span> field to a low percentage. This process is described
+                        in more detail in the <a href="https://support.google.com/a/answer/2466563?hl=en">Google Apps
+                        DMARC setup guide</a>.
+                    </li>
+
+                    <li ng-if="!message.dmarc.existence && message.dmarc.orgRecord.existence && message.dmarc.orgRecord.sp == 'none'">
+                        A DMARC subdomain policy of <span class="code">none</span> allows spoofed emails from subdomains
+                        to be delivered. Begin implementing a DMARC subdomain policy of <span class="code">quarantine</span> or
+                        <span class="code">reject</span>, or remove the subdomain policy and implement a DMARC policy of
+                        <span class="code">quarantine</span> or <span class="code">reject</span>. As implementing strict
+                        DMARC policies may interfere with the deliver of email from
+                        <span class="code">{{message.dmarc.orgRecord.domain}}</span> email addresses, Bishop Fox recommends
+                        <span ng-if="!message.dmarc.aggregateReports && !message.dmarc.orgRecord.rua">setting up and </span> monitoring aggregate report
                         notifications for legitimate emails before beginning to implement a stricter policy. If no
                         legitimate emails are reported, set the DMARC policy to <span class="code">quarantine</span>
                         and set the <span class="code">pct</span> field to a low percentage. This process is described
@@ -146,8 +161,8 @@
 
                 <li>
                     Configure the <span class="code">{{domain}}</span> email server to quarantine emails that fail
-                    SPF alignment on the <span class="code">From</span> field. Nearly 40% of domains are configured
-                    with SPF records, but less than one percent of domains are configured with a strict DMARC record.
+                    SPF alignment on the <span class="code">From</span> field. Nearly 41% of domains are configured
+                    with SPF records, but only 1.8% of domains are configured with a strict DMARC record.
                 </li>
             </ul>
             </div>
