@@ -36,7 +36,7 @@ config = ConfigManager.instance()
 app = Application([
 
     # Static Handlers - Serves static CSS, JS and images
-    (r'/static/(.*\.(css|js|png|jpg|jpeg|svg|ttf|html))',
+    (r'/static/(.*\.(css|js|png|jpg|jpeg|svg|ttf|html|json))',
      StaticFileHandler, {'path': 'static/'}),
 
     # Home page serving SPA app
