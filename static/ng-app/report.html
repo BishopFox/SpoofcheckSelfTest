@@ -116,8 +116,8 @@
 
                     <li ng-if="!message.dmarc.existence && !message.dmarc.orgRecord.existence">
                         Begin implementing a DMARC record for <span class="code">{{domain}}</span>. DMARC records are
-                        DNS <span class="code">TXT</span> records located at the <span class="code">_dmarc.{{domain}}</span>
-                        subdomain that instruct receiving mail servers on how to handle emails that fail SPF and DKIM
+                        DNS <span class="code">TXT</span> records, located at the <span class="code">_dmarc.{{domain}}</span>
+                        subdomain, that instruct receiving mail servers how to handle emails that fail SPF and DKIM
                         alignment. For DMARC to function, <span class="code">{{domain}}</span> needs to have both SPF and
                         DKIM configured. Additional information about setting up DMARC records can be found from the
                         <a href="https://support.google.com/a/answer/2466563?hl=en">Google Apps DMARC setup guide</a>.
@@ -126,7 +126,7 @@
                     <li ng-if="(!message.dmarc.existence || message.dmarc.policy=='none') && !message.dmarc.orgRecord.existence">
                         A DMARC policy of <span class="code">none</span> allows spoofed emails to be delivered.
                         Begin implementing a DMARC policy of <span class="code">quarantine</span> or <span class="code">
-                        reject</span>. As implementing strict DMARC policies may interfere with the deliver of email from
+                        reject</span>. As implementing strict DMARC policies may interfere with the delivery of email from
                         <span class="code">{{domain}}</span> email addresses, Bishop Fox recommends
                         <span ng-if="!message.dmarc.aggregateReports">setting up and </span> monitoring aggregate report
                         notifications for legitimate emails before beginning to implement a stricter policy. If no
@@ -141,7 +141,7 @@
                         to be delivered. Begin implementing a DMARC subdomain policy of <span class="code">quarantine</span> or
                         <span class="code">reject</span>, or remove the subdomain policy and implement a DMARC policy of
                         <span class="code">quarantine</span> or <span class="code">reject</span>. As implementing strict
-                        DMARC policies may interfere with the deliver of email from
+                        DMARC policies may interfere with the delivery of email from
                         <span class="code">{{message.dmarc.orgRecord.domain}}</span> email addresses, Bishop Fox recommends
                         <span ng-if="!message.dmarc.aggregateReports && !message.dmarc.orgRecord.rua">setting up and </span> monitoring aggregate report
                         notifications for legitimate emails before beginning to implement a stricter policy. If no
@@ -161,7 +161,7 @@
 
                 <li>
                     Configure the <span class="code">{{domain}}</span> email server to quarantine emails that fail
-                    SPF alignment on the <span class="code">From</span> field. Nearly 41% of domains are configured
+                    SPF alignment on the <span class="code">From</span> field. Nearly 41% of the Alexa top million domains are configured
                     with SPF records, but only 1.8% of domains are configured with a strict DMARC record.
                 </li>
             </ul>
