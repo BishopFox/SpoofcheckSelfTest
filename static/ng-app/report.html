@@ -64,7 +64,7 @@
                         </li>
 
                         <li ng-if="message.dmarc.orgRecord.existence && !message.dmarc.orgRecord.sp">
-                            The DMARC record for <span class="code">{{message.dmarc.orgRecord.domain}}</span> has no specified subdomain policy. Configuration defaults to <span class="code">policy</span>
+                            The DMARC record for <span class="code">{{message.dmarc.orgRecord.domain}}</span> has no specified subdomain policy. Without one, the subdomain alignment configuration defaults to the basic DMARC <span class="code">policy</span>.
                         </li>
 
                         <li ng-if="message.dmarc.orgRecord.existence && !message.dmarc.orgRecord.sp && mmessage.dmarc.orgRecord.policy != 'none'">
@@ -162,7 +162,7 @@
                 <li>
                     Configure the <span class="code">{{domain}}</span> email server to quarantine emails that fail
                     SPF alignment on the <span class="code">From</span> field. Nearly 41% of the Alexa top million domains are configured
-                    with SPF records, but only 1.8% of domains are configured with a strict DMARC record.
+                    with SPF records, but only 1.8% of those domains are configured with a strict DMARC record.
                 </li>
             </ul>
             </div>
