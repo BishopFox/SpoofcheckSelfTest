@@ -114,3 +114,7 @@ ul.recommendations li {
     float: left;
 
 }
+
+ul {
+    list-style: disc;
+}
