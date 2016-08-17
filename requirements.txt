@@ -1,2 +1,2 @@
-emailprotectionslib>=0.8.0
+emailprotectionslib>=0.8.2
 tornado
