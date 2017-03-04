@@ -1,7 +1,7 @@
-var app = angular.module('spoofcheck', ['ngRoute', 'ngAnimate', 'ngWebSocket']);
+var app = angular.module('spoofcheck', ['ngRoute', 'ngAnimate', 'ngWebSocket', 'vcRecaptcha']);
 
-app.config( ['$routeProvider', '$locationProvider',
-        function($routeProvider, $locationProvider) {
+app.config( ['$routeProvider', '$locationProvider', 'vcRecaptchaServiceProvider',
+        function($routeProvider, $locationProvider, vcRecaptchaServiceProvider) {
             $routeProvider.when(
                 '/', {
                     templateUrl: '/static/ng-app/home.html',
@@ -21,6 +21,9 @@ app.config( ['$routeProvider', '$locationProvider',
                 redirectTo: '/'
             })
             ;
+
+            // TODO: Fix to pull from config file, or modify in production
+            vcRecaptchaServiceProvider.setSiteKey("6LdIoBcUAAAAAPCPungbnm_WHG3tmukpaLpGuVra");
         }
 
 ])
@@ -71,6 +74,17 @@ app
     .controller('HomeController', ['$scope', '$rootScope', 'MonitorWebSocket', '$location', 'EVENTS',
         function($scope, $rootScope, MonitorWebSocket, $location, EVENTS) {
             $rootScope.domain = undefined;
+
+            $scope.response = null;
+            $scope.widgetId = null;
+
+            $scope.setResponse = function (response) {
+                console.info('Response available: %s', response);
+            };
+            $scope.setWidgetId = function (widgetId) {
+                console.info('Created widget ID: %s', widgetId);
+                $scope.widgetId = widgetId;
+            };
 
             $scope.checkDomain = function(domain) {
                 console.log("Firing checkDomain with " + domain);
