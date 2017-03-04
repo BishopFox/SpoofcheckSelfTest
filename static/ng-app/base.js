@@ -55,11 +55,13 @@ app
 
             return {
                 output: output,
-                checkDomain: function(domain) {
+                checkDomain: function(domain, captchaResponse) {
+
                     ws.send(JSON.stringify(
                         {
                             opcode: 'check',
-                            domain: domain
+                            domain: domain,
+                            captchaResponse: captchaResponse
                         }
                     ));
                 }
@@ -80,6 +82,7 @@ app
 
             $scope.setResponse = function (response) {
                 console.info('Response available: %s', response);
+                $scope.captchaResponse = response;
             };
             $scope.setWidgetId = function (widgetId) {
                 console.info('Created widget ID: %s', widgetId);
@@ -96,7 +99,7 @@ app
                     $location.path("/report/" + $rootScope.domain).replace();
                 });
 
-                $rootScope.ws.checkDomain(domain);
+                $rootScope.ws.checkDomain(domain, $scope.captchaResponse);
 
                 $location.path("/watch");
                 $rootScope.$broadcast(EVENTS.sent);
