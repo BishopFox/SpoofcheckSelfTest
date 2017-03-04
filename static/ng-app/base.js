@@ -13,7 +13,7 @@ app.config( ['$routeProvider', '$locationProvider', 'vcRecaptchaServiceProvider'
                     controller: 'WatchController'
                 }
             ).when(
-                '/report/:domain', {
+                '/report', {
                     templateUrl: '/static/ng-app/report.html',
                     controller: 'ReportController'
                 }
@@ -96,7 +96,7 @@ app
 
                 $rootScope.$on(EVENTS.output, function(evt, data) {
                     console.log(evt);
-                    $location.path("/report/" + $rootScope.domain).replace();
+                    $location.path("/report").replace();
                 });
 
                 $rootScope.ws.checkDomain(domain, $scope.captchaResponse);
@@ -118,25 +118,14 @@ app
         }
     ])
 
-    .controller('ReportController', ["$scope", '$rootScope', "$location", "$routeParams", "MonitorWebSocket", "EVENTS",
-        function($scope, $rootScope, $location, $routeParams, MonitorWebSocket, EVENTS) {
-            console.log($routeParams.domain);
-            if ($rootScope.ws === undefined || $rootScope.domain === undefined
-                || $rootScope.domain !== $routeParams.domain) {
-                if ($routeParams.domain !== null && $routeParams.domain !== undefined) {
-                    $rootScope.domain = $routeParams.domain;
-                    $rootScope.ws = MonitorWebSocket;
-                    $rootScope.ws.checkDomain($rootScope.domain);
-                    $rootScope.$on(EVENTS.output, function(evt, data) {
-                        console.log(evt);
-                        $location.path("/report/" + $rootScope.domain).replace();
-                    });
-                    $location.path("/watch");
-                } else {
-                    $location.path("/");
-                }
+
+    .controller('ReportController', ["$scope", '$rootScope', "$location",
+        function($scope, $rootScope, $location) {
+            if ($rootScope.ws === undefined || $rootScope.domain === undefined) {
+                $location.path("/");
+            } else {
+                $scope.message = $rootScope.ws.output[$rootScope.ws.output.length - 1];
             }
-            $scope.message = $rootScope.ws.output[$rootScope.ws.output.length - 1];
         }
     ])
 ;
