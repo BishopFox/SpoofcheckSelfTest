@@ -1,2 +1,3 @@
 emailprotectionslib>=0.8.2
 tornado
+recaptcha
