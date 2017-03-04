@@ -28,6 +28,7 @@ from libs.ConfigManager import ConfigManager
 from handlers.ErrorHandlers import *
 from handlers.HomePageHandler import *
 from handlers.CheckHandler import *
+from handlers.CaptchaKeyHandler import *
 
 # Config
 config = ConfigManager.instance()
@@ -44,6 +45,8 @@ app = Application([
 
     # Monitor Socket
     (r'/connect/monitor', MonitorSocketHandler),
+
+    (r'/captcha', CaptchaKeyHandler),
 
     # Error Handlers -
     (r'/403', ForbiddenHandler),
