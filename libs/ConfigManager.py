@@ -28,7 +28,6 @@ import ConfigParser
 
 from libs.ConsoleColors import *
 from libs.Singleton import Singleton
-from sqlalchemy import create_engine
 
 
 logging_levels = {
