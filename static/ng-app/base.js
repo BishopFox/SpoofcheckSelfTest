@@ -23,7 +23,7 @@ app.config( ['$routeProvider', '$locationProvider', 'vcRecaptchaServiceProvider'
             ;
 
             // TODO: Fix to pull from config file, or modify in production
-            vcRecaptchaServiceProvider.setSiteKey("6LdIoBcUAAAAAPCPungbnm_WHG3tmukpaLpGuVra");
+            vcRecaptchaServiceProvider.setSiteKey("6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI");
         }
 
 ])
