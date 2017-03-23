@@ -91,7 +91,14 @@ app
 
             $scope.checkDomain = function(domain) {
                 console.log("Firing checkDomain with " + domain);
-                $rootScope.domain = domain;
+                var parsedDomain = domain;
+                var emailRegex = /@([\w.]+)/;
+                var emailRegexOut = domain.match(emailRegex);
+                if (emailRegexOut != null) {
+                    parsedDomain = emailRegexOut[1];
+                }
+
+                $rootScope.domain = parsedDomain;
                 $rootScope.ws = MonitorWebSocket;
 
                 $rootScope.$on(EVENTS.output, function(evt, data) {

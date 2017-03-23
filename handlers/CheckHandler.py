@@ -3,6 +3,7 @@ import logging
 import json
 import os
 import requests
+import re
 
 import emailprotectionslib.spf as spflib
 import emailprotectionslib.dmarc as dmarclib
@@ -49,6 +50,11 @@ class MonitorSocketHandler(BaseWebSocketHandler):
     # Opcodes
     def check_domain(self, message):
         domain = message["domain"]
+
+        groups = re.search("@([\w.]+)", domain)
+
+        if groups is not None:
+            domain = groups.group(1)
 
         recaptcha_solution = message["captchaResponse"]
 
