@@ -56,14 +56,16 @@ app
             return {
                 output: output,
                 checkDomain: function(domain, captchaResponse) {
-
-                    ws.send(JSON.stringify(
+                    var data = JSON.stringify(
                         {
                             opcode: 'check',
                             domain: domain,
                             captchaResponse: captchaResponse
                         }
-                    ));
+                    );
+
+                    console.log(data);
+                    ws.send();
                 }
             };
 
