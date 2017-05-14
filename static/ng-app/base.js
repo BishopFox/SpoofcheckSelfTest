@@ -65,7 +65,7 @@ app
                     );
 
                     console.log(data);
-                    ws.send();
+                    ws.send(data);
                 }
             };
 
