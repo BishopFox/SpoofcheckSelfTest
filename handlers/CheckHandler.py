@@ -149,5 +149,5 @@ class MonitorSocketHandler(BaseWebSocketHandler):
                 }
 
                 self.write_message(output)
-            except Exception as error:
+        except Exception as error:
                 logging.debug(error)
