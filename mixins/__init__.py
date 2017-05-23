@@ -1,0 +1,1 @@
+from mixins.celery_task_mixin import CeleryTaskMixin
