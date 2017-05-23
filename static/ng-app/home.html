@@ -23,11 +23,12 @@
                 </div>
             </div>
         </div>
-
-        <div
-                vc-recaptcha
-                on-create="setWidgetId(widgetId)"
-                on-success="setResponse(response)"
-        ></div>
+        <div class="captcha">
+            <div
+                    vc-recaptcha
+                    on-create="setWidgetId(widgetId)"
+                    on-success="setResponse(response)"
+            ></div>
+        </div>
     </form>
 </div>
