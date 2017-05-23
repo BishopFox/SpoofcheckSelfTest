@@ -56,29 +56,53 @@ def start_worker():
     worker.run(**worker_options)
 
 
-def main(args):
+def main():
     ''' Call functions in the correct order based on CLI params '''
     fpath = os.path.abspath(__file__)
     fdir = os.path.dirname(fpath)
     if fdir != os.getcwd():
         print(INFO + "Switching CWD to %s" % fdir)
         os.chdir(fdir)
-    # Start server
-    if args.start_server:
-        serve()
+    start_worker()
+    serve()
+
 
 # Main
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description='Tornado WebApp',
-    )
-    parser.add_argument('-v', '--version',
-                        action='version',
-                        version=__version__,
-                        )
-    parser.add_argument("-s", "--start",
-                        action='store_true',
-                        dest='start_server',
-                        help="start the server",
-                        )
-    main(parser.parse_args())
+    define("config",
+           default="app.cfg",
+           help="path to config file",
+           type=str,
+           callback=lambda path: options.parse_config_file(path, final=False))
+
+    # RabbitMQ host
+    define("mq_hostname",
+           group="mq",
+           default=os.environ.get("SPOOFCHECK_MQ_HOST", "127.0.0.1"),
+           help="the mq host")
+
+    define("mq_port",
+           group="mq",
+           default="5672",
+           help="the mq port",
+           type=str)
+
+    define("mq_username",
+           group="mq",
+           default=os.environ.get("SPOOFCHECK_MQ_USERNAME", "guest"),
+           help="the mq username",
+           type=str)
+
+    define("mq_password",
+           group="mq",
+           default=os.environ.get("SPOOFCHECK_MQ_PASSWORD", "guest"),
+           help="the mq password",
+           type=str)
+
+    define("mq_loglevel",
+           group="mq",
+           default=os.environ.get("SPOOFCHECK_MQ_LOGLEVEL", "INFO"),
+           help="the mq log level")
+
+    main()
+
