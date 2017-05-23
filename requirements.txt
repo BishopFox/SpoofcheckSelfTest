@@ -4,3 +4,5 @@ requests
 celery
 tornado
 tornado-celery
+furl
+pika

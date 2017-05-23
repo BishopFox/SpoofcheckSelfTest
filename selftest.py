@@ -23,6 +23,8 @@ command line arguments it calls various components setup/start/etc.
 import os
 import argparse
 
+from tornado.options import options, define
+
 from datetime import datetime
 from libs.ConsoleColors import *
 
@@ -36,6 +38,22 @@ def serve():
 
     print(INFO + '%s : Starting application ...' % current_time())
     start_server()
+
+
+def start_worker():
+    from tasks import selftest_task_queue
+    from tasks.helpers import create_mq_url
+    from celery.bin import worker
+
+    worker = worker.worker(app=selftest_task_queue)
+    worker_options = {
+        'broker': create_mq_url(options.mq_hostname, options.mq_port,
+                                username=options.mq_username,
+                                password=options.mq_password),
+        'loglevel': options.mq_loglevel,
+        'traceback': options.debug,
+    }
+    worker.run(**worker_options)
 
 
 def main(args):
