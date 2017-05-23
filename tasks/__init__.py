@@ -17,6 +17,6 @@ selftest_task_queue = Celery(
                          username=options.mq_username,
                          password=options.mq_password),
     include=[
-
+        "tasks.message_tasks"
     ])
 selftest_task_queue.conf.update(**queue_conf)
