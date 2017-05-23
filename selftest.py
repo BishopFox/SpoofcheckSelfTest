@@ -63,8 +63,12 @@ def main():
     if fdir != os.getcwd():
         print(INFO + "Switching CWD to %s" % fdir)
         os.chdir(fdir)
-    start_worker()
-    serve()
+    if options.api:
+        serve()
+    elif options.celery:
+        start_worker()
+    else:
+        print(INFO + "Failed to start server")
 
 define("config",
        default="app.cfg",
@@ -101,9 +105,25 @@ define("mq_loglevel",
        default=os.environ.get("SPOOFCHECK_MQ_LOGLEVEL", "INFO"),
        help="the mq log level")
 
+define("debug",
+       default=bool(os.environ.get("SPOOFCHECK_DEBUG", False)),
+       help="start server in debugging mode",
+       group="debug",
+       type=bool)
+
+define("celery",
+       default=False,
+       help="Start Celery task server",
+       type=bool)
+
+define("api",
+       default=False,
+       help="Start Server",
+       type=bool)
+
+
 # Main
 if __name__ == '__main__':
-
     try:
         options.parse_command_line()
     except IOError as error:

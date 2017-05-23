@@ -49,10 +49,14 @@ class MonitorSocketHandler(BaseWebSocketHandler, CeleryTaskMixin):
 
             recaptcha_solution = message["captchaResponse"]
 
+            ip_address = self.request.remote_ip
+
             solution_correct = self.execute_task(check_recaptcha_solution, **{
                 "user_solution": recaptcha_solution,
-                "ip_address": message.request.remote_ip
+                "ip_address": ip_address
             })
+
+            logging.debug(solution_correct)
 
             if not solution_correct:
                 output = {
@@ -63,7 +67,7 @@ class MonitorSocketHandler(BaseWebSocketHandler, CeleryTaskMixin):
                 self.write_message(output)
 
             else:
-
+                logging.info("Checking domain " + domain)
                 output = self.execute_task(email_spoofing_analysis, **{
                     "domain": domain
                 })

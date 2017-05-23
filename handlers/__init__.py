@@ -29,8 +29,12 @@ from handlers.ErrorHandlers import *
 from handlers.HomePageHandler import *
 from handlers.CheckHandler import *
 
+from libs.events.event_consumers import TaskEventConsumer
+
 # Config
 config = ConfigManager.instance()
+
+task_event_consumer = TaskEventConsumer()
 
 # Application setup
 app = Application([
@@ -68,6 +72,8 @@ app = Application([
 
     # Debug mode
     debug=config.debug,
+
+    task_event_consumer=task_event_consumer
 )
 
 
