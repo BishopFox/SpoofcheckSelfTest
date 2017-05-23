@@ -21,7 +21,7 @@ command line arguments it calls various components setup/start/etc.
 '''
 
 import os
-import argparse
+import sys
 
 from tornado.options import options, define
 
@@ -66,43 +66,48 @@ def main():
     start_worker()
     serve()
 
+define("config",
+       default="app.cfg",
+       help="path to config file",
+       type=str,
+       callback=lambda path: options.parse_config_file(path, final=False))
+
+# RabbitMQ host
+define("mq_hostname",
+       group="mq",
+       default=os.environ.get("SPOOFCHECK_MQ_HOST", "127.0.0.1"),
+       help="the mq host")
+
+define("mq_port",
+       group="mq",
+       default="5672",
+       help="the mq port",
+       type=str)
+
+define("mq_username",
+       group="mq",
+       default=os.environ.get("SPOOFCHECK_MQ_USERNAME", "guest"),
+       help="the mq username",
+       type=str)
+
+define("mq_password",
+       group="mq",
+       default=os.environ.get("SPOOFCHECK_MQ_PASSWORD", "guest"),
+       help="the mq password",
+       type=str)
+
+define("mq_loglevel",
+       group="mq",
+       default=os.environ.get("SPOOFCHECK_MQ_LOGLEVEL", "INFO"),
+       help="the mq log level")
 
 # Main
 if __name__ == '__main__':
-    define("config",
-           default="app.cfg",
-           help="path to config file",
-           type=str,
-           callback=lambda path: options.parse_config_file(path, final=False))
 
-    # RabbitMQ host
-    define("mq_hostname",
-           group="mq",
-           default=os.environ.get("SPOOFCHECK_MQ_HOST", "127.0.0.1"),
-           help="the mq host")
-
-    define("mq_port",
-           group="mq",
-           default="5672",
-           help="the mq port",
-           type=str)
-
-    define("mq_username",
-           group="mq",
-           default=os.environ.get("SPOOFCHECK_MQ_USERNAME", "guest"),
-           help="the mq username",
-           type=str)
-
-    define("mq_password",
-           group="mq",
-           default=os.environ.get("SPOOFCHECK_MQ_PASSWORD", "guest"),
-           help="the mq password",
-           type=str)
-
-    define("mq_loglevel",
-           group="mq",
-           default=os.environ.get("SPOOFCHECK_MQ_LOGLEVEL", "INFO"),
-           help="the mq log level")
-
+    try:
+        options.parse_command_line()
+    except IOError as error:
+        print(WARN + str(error))
+        sys.exit()
     main()
 
