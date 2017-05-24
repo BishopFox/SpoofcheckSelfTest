@@ -34,51 +34,52 @@ from libs.events.event_consumers import TaskEventConsumer
 # Config
 config = ConfigManager.instance()
 
-task_event_consumer = TaskEventConsumer()
-
-# Application setup
-app = Application([
-
-    # Static Handlers - Serves static CSS, JS and images
-    (r'/static/(.*\.(css|js|png|jpg|jpeg|svg|ttf|html|json))',
-     StaticFileHandler, {'path': 'static/'}),
-
-    # Home page serving SPA app
-    (r'/', HomePageHandler),
-
-    # Monitor Socket
-    (r'/connect/monitor', MonitorSocketHandler),
-
-    # Error Handlers -
-    (r'/403', ForbiddenHandler),
-
-    # Catch all 404 page
-    (r'(.*)', NotFoundHandler),
-],
-
-    # Randomly generated secret key
-    cookie_secret=urandom(32).encode('hex'),
-
-    # Request that does not pass @authorized will be
-    # redirected here
-    forbidden_url='/403',
-
-    # Requests that does not pass @authenticated  will be
-    # redirected here
-    login_url='/login',
-
-    # Template directory
-    template_path='templates/',
-
-    # Debug mode
-    debug=config.debug,
-
-    task_event_consumer=task_event_consumer
-)
-
 
 def start_server():
     ''' Main entry point for the application '''
+
+    task_event_consumer = TaskEventConsumer()
+
+    # Application setup
+    app = Application([
+
+        # Static Handlers - Serves static CSS, JS and images
+        (r'/static/(.*\.(css|js|png|jpg|jpeg|svg|ttf|html|json))',
+         StaticFileHandler, {'path': 'static/'}),
+
+        # Home page serving SPA app
+        (r'/', HomePageHandler),
+
+        # Monitor Socket
+        (r'/connect/monitor', MonitorSocketHandler),
+
+        # Error Handlers -
+        (r'/403', ForbiddenHandler),
+
+        # Catch all 404 page
+        (r'(.*)', NotFoundHandler),
+    ],
+
+        # Randomly generated secret key
+        cookie_secret=urandom(32).encode('hex'),
+
+        # Request that does not pass @authorized will be
+        # redirected here
+        forbidden_url='/403',
+
+        # Requests that does not pass @authenticated  will be
+        # redirected here
+        login_url='/login',
+
+        # Template directory
+        template_path='templates/',
+
+        # Debug mode
+        debug=config.debug,
+
+        task_event_consumer=task_event_consumer
+    )
+
     sockets = netutil.bind_sockets(config.listen_port)
     if config.use_ssl:
         server = HTTPServer(app,

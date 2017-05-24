@@ -336,6 +336,7 @@ class BaseEventConsumer(object):
         self._closing = True
         self.stop_consuming()
 
+
 class TaskEventConsumer(BaseEventConsumer):
 
     EXCHANGE = TASK_EVENTS

@@ -1,2 +1,2 @@
-TASK_EVENTS = 'task_events'
+TASK_EVENTS = 'celery'
 TASK_ROUTING_KEY = ''
