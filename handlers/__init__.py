@@ -93,6 +93,7 @@ def start_server():
     server.add_sockets(sockets)
     io_loop = IOLoop.instance()
     try:
+        io_loop.add_callback(task_event_consumer.connect)
         io_loop.start()
     except KeyboardInterrupt:
         logging.warn("Keyboard interrupt, shutdown everything!")

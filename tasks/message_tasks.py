@@ -107,5 +107,4 @@ def check_recaptcha_solution(user_solution, ip_address):
     recaptcha_response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=payload)
 
     logging.debug("[RECAPTCHA Response] " + recaptcha_response.text)
-
     return recaptcha_response.json()["success"]
