@@ -18,7 +18,10 @@ This application is designed to be used as a service. However, if you want to ho
         
         /usr/local/bin/bower install
         
+RECAPTCHA: put the site key in static/ng-app/base.js. set the RECAPTCHA_SECRET_KEY environment variable with the secret key.
+        
 # Running:
     ./selftest.py --api
+    ./selftest.py --celery
     
 Then visit http://localhost:8888 in a web browser
