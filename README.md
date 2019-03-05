@@ -6,7 +6,9 @@ Web application that lets you test if your domain is vulnerable to email spoofin
 # Installation:
 This application is designed to be used as a service. However, if you want to host this yourself, do the following:
         
-        apt-get install python-pip rabbitmq-server sqlite memcached
+        apt-get install python-pip rabbitmq-server sqlite memcached npm
+        
+        npm install -g bower
         
         git clone https://github.com/bishopfox/spoofcheckselftest.git
         
@@ -14,7 +16,9 @@ This application is designed to be used as a service. However, if you want to ho
         
         pip install -r requirements.txt
         
+        /usr/local/bin/bower install
+        
 # Running:
-    ./selftest.py -s
+    ./selftest.py --api
     
 Then visit http://localhost:8888 in a web browser
