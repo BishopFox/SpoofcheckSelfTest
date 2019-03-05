@@ -6,5 +6,6 @@ tornado
 tornado-celery
 furl
 pika
+pika-client
 dnslib
 tldextract
