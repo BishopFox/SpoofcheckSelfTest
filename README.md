@@ -5,9 +5,13 @@ Web application that lets you test if your domain is vulnerable to email spoofin
 
 # Installation:
 This application is designed to be used as a service. However, if you want to host this yourself, do the following:
+        
         apt-get install python-pip rabbitmq-server sqlite memcached
+        
         git clone https://github.com/bishopfox/spoofcheckselftest.git
+        
         cd spoofcheckselftest
+        
         pip install -r requirements.txt
         
 # Running:
