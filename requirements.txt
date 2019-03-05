@@ -6,3 +6,4 @@ tornado
 tornado-celery
 furl
 pika
+dnslib
